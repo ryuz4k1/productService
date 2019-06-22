@@ -7,6 +7,7 @@ class Connection {
     // ... Postgres sequelize
     postgres() {
         try {
+            console.log(process.env.CONNECTION_STRING);
             return new Sequelize(process.env.CONNECTION_STRING, {
                 dialect: "postgres",
                 dialectOptions: { decimalNumbers: true },

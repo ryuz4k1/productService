@@ -4,7 +4,7 @@ const express    = require("express");
 const bodyParser = require("body-parser");
 
 const ExceptionMiddleware    = require("./middleware/exception-middleware");
-const ProductController      = require("./controller/add-product-controller");
+const ProductController      = require("./controller/product-controller");
 
 class App {
     constructor() {
