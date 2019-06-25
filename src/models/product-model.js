@@ -9,8 +9,7 @@ const Product = sequelize.define("product", {
     productId: {
         field: "productId",
         type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+        primaryKey: true
     },
     isActive: {
         field: "isActive",

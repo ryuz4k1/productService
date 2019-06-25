@@ -18,6 +18,21 @@ class Util {
       this.message = message;
       this.type = 'error';
     }
+
+    setResult(code, message, data) {
+      return result = {
+          code: code,
+          message: message,
+          data: data,
+          time: Date.now(),
+          api: {
+              author: packageJson.author,
+              name: packageJson.name,
+              description: packageJson.description,
+              version: packageJson.version
+          }
+      }
+  }
   
     send(res) {
       const result = {
