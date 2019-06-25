@@ -133,6 +133,7 @@ class AddProductController{
             */
 
             let productLastIndex =  await this.getLastIndex();
+            /*
             let myNewProduct = {
                 productId: productLastIndex + 1,
                 isActive: true,
@@ -144,7 +145,22 @@ class AddProductController{
                 vatRate:8,
                 stockUnitId:2,
                 image:"http://service.rofoods.com/product/public/product-"+ this.productId +".png",
-                //image:"http://service.rofoods.com/product/public/product-1026.png",
+                energyKj:50,
+                energyKcal:50
+            };
+            */
+
+            let myNewProduct = {
+                productId: productLastIndex + 1,
+                isActive: true,
+                isDeleted: false,
+                brandId:req.body.brandId,
+                categoryId:req.body.categoryId,
+                code:req.body.code,
+                name:req.body.name,
+                vatRate:8,
+                stockUnitId:req.body.stockUnitId,
+                image:"http://service.rofoods.com/product/public/product-"+ this.productId +".png",
                 energyKj:50,
                 energyKcal:50
             };
@@ -158,16 +174,21 @@ class AddProductController{
         }
     }
 
+    
+
     routes() {
+        /* GET home page. */
+        this.router.get('/', function(req, res, next) {
+            res.render('addNewProduct', {
+                'title': 'Add New Product'
+            });
+        });
         this.router.get('/getAllProducts', this.getAllProduct.bind(this));
         this.router.get('/getProductById/:id',this.getProductById.bind(this));
         this.router.get('/getProductBarcode',this.getProductBarcode.bind(this));
         this.router.get('/getProductPrice',this.getProductPrice.bind(this));
         this.router.get('/getProductPaymentMap',this.getProductPaymentMap.bind(this));
         this.router.get('/addNewProduct',this.addNewProduct.bind(this));
-
-
-        this.router.get('/getLastIndex',this.getLastIndex.bind(this));
     }
 }
 

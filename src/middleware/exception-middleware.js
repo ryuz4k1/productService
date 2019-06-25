@@ -1,9 +1,13 @@
 "use strict";
 
-const Utils  = require("../helper/utils");
+const Util  = require("../helper/utils");
 const Types  = require("../helper/tyoes");
 
 class ExceptionMiddleware {
+    
+    constructor(){
+        this.util = new Util();
+    }
     
     errorHandler(err, req, res, next) {
         const utils  = new Util();

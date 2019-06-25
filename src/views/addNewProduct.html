@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Product</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+</head>
+<body>
+    <form action="/addNewProduct" class="form-horizontal" method="POST">
+      <fieldset>
+        <div id="legend">
+            <legend style="margin-left: 1%" >Add New Product</legend>
+        </div>
+        
+      <div class="control-group">
+          <label class="control-label" for="productId">Product Id</label>
+          <div class="controls">
+              <input type="text" id="productId" name="productId" class="input-xlarge"
+              maxlength="100">
+          </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label"  for="brandId">Brand Id</label>
+        <div class="controls">
+            <input type="text" id="brandId" name="brandId" class="input-xlarge">
+        </div>
+      </div>
+
+    <div class="control-group">
+      <label class="control-label" for="categoryId">Category Id</label>
+      <div class="controls">
+        <input type="text" id="categoryId" name="categoryId" placeholder="" class="input-xlarge">
+        </div>
+    </div>
+
+      <div class="control-group">
+          <label class="control-label"  for="code">Code</label>
+          <div class="controls">
+              <input type="text" id="code" name="code" placeholder="" class="input-xlarge">
+          </div>
+      </div>
+
+      <div class="control-group">
+          <label class="control-label"  for="name">Product Name</label>
+          <div class="controls">
+              <input type="text" id="name" name="name" placeholder="" class="input-xlarge">
+          </div>
+      </div>
+
+      <div class="control-group">
+          <label class="control-label"  for="vatRate">Vat Rate</label>
+          <div class="controls">
+              <input type="text" id="vatRate" name="vatRate" placeholder="" class="input-xlarge">
+          </div>
+      </div>
+
+      <div class="control-group">
+          <label class="control-label"  for="stockUnitId">Stock Unit Id</label>
+          <div class="controls">
+              <input type="text" id="stockUnitId" name="stockUnitId" placeholder="" class="input-xlarge">
+          </div>
+      </div>
+
+      <div class="control-group">
+          <label class="control-label" for="image">Image Name</label>
+          <div class="controls">
+              <input type="text" id="image" name="image" placeholder="" class="input-xlarge">
+          </div>
+      </div>
+
+
+      <div class="control-group">
+          <label class="control-label" for="energyKj">energyKj</label>
+          <div class="controls">
+              <input type="text" id="energyKj" name="energyKj" placeholder="" class="input-xlarge">
+          </div>
+      </div>
+
+
+      <div class="control-group">
+          <label class="control-label" for="energyKcal">energyKcal</label>
+          <div class="controls">
+              <input type="text" id="energyKcal" name="energyKcal" placeholder="" class="input-xlarge">
+          </div>
+      </div>
+
+
+      <div class="control-group">
+            <!-- Button -->
+            <div class="controls">
+                <button type="submit" class="btn btn-success input-xlarge">Add</button>
+            </div>
+        </div>
+    </fieldset>
+    </form>
+
+
+</body>
+</html>
+
+

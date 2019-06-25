@@ -1,10 +1,12 @@
 "use strict";
-
-const express    = require("express");
-const bodyParser = require("body-parser");
-
+const express                = require("express");
+const bodyParser             = require("body-parser");
 const ExceptionMiddleware    = require("./middleware/exception-middleware");
 const ProductController      = require("./controller/product-controller");
+const path                   = require('path');
+var engines = require('consolidate');
+
+
 
 class App {
     constructor() {
@@ -16,6 +18,15 @@ class App {
     config() {
         // ... Body parser
         this.app.use(bodyParser.json());
+
+        // view engine setup
+        console.log(__dirname+'/views')
+        this.app.set('views', __dirname + '/views');
+        this.app.engine('html', engines.mustache);
+        this.app.set('view engine', 'html');
+
+        // Set static folder
+        this.app.use(express.static(__dirname + '../public'));
     }
     controllers() {
         // ... Define routes 
@@ -23,9 +34,10 @@ class App {
         this.app.use("/", router);
         new ProductController(router);
         
+        
         // ... Exception middleware
-        const exceptionMiddleware = new ExceptionMiddleware();
-        this.app.use(exceptionMiddleware.errorHandler);
+        //const exceptionMiddleware = new ExceptionMiddleware();
+        //this.app.use(exceptionMiddleware.errorHandler);
     }
     getApp() {
         return this.app;

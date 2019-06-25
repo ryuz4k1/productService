@@ -26,10 +26,10 @@ class Util {
           data: data,
           time: Date.now(),
           api: {
-              author: packageJson.author,
-              name: packageJson.name,
-              description: packageJson.description,
-              version: packageJson.version
+              author: "ryuz4k1",
+              name: "Murat",
+              description: "Product Service",
+              version: "0.1"
           }
       }
   }
