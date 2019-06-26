@@ -3,7 +3,11 @@ const Product               =   require("../models/product-model");
 const ProductBarcode        =   require("../models/product-barcode-model");
 const ProductPrice          =   require("../models/product-price-model");
 const ProductPaymentMap     =   require("../models/product-payment-map-model");
+const Sequelize             =   require('sequelize');
+const Connection            =   require("../helper/connection");
 
+const connection = new Connection();
+const sequelize  = connection.postgres();
 
 
 class AddProductController{
@@ -14,6 +18,8 @@ class AddProductController{
         this.router = router;
         this.routes();
         this.util = new Util();
+
+        
     }
 
     async getAllProduct(req,res) {
@@ -106,13 +112,24 @@ class AddProductController{
         }
     }
 
-    async getLastIndex() {
+    async getLastIndex(whichIndex) {
         try{
-            let productIndex = await Product.findOne({
-                attributes: ['productId'],
-                order: [['createOn', 'DESC']]
-            });
-            return productIndex.productId;
+            switch (whichIndex) {
+                case 1:
+                    let productIndex = await Product.findOne({
+                        attributes: [[sequelize.fn('max', sequelize.col('productId')), 'maxProductId']],
+                        raw: true,
+                    });
+                    return productIndex.maxProductId;
+                case 2:
+                    let barcodeIndex = await ProductBarcode.findOne({
+                        attributes: [[sequelize.fn('max', sequelize.col('barcodeId')), 'maxProductBarcode']],
+                        raw: true
+                    });
+                    return barcodeIndex.maxProductBarcode;
+                default:
+                    break;
+            }
         }
         catch(error){
             return error;
@@ -121,52 +138,59 @@ class AddProductController{
 
     async addNewProduct(req,res) {
         try{
-            let barcodes = ['12345167812','234561345671'];
-            let paymentType = ['']
+            let { name, categoryId, brandId ,barcode, sellerId, unitPrice} = req.body;
+            let errors = [];
             
-            /*
-            let newProduct = await Product.findOne({ where: { productId: req.body.productId }});
+            let productLastIndex =  await this.getLastIndex(1);
+            let barcodeLastIndex =  await this.getLastIndex(2);
+            console.log(productLastIndex)
+            console.log(barcodeLastIndex)
 
-            if (newProduct) {
-                return res.send(this.utils.setResult(Types.Code.EXIST, "ProductId already exist", newProduct));
+            // Validate Fields
+            if(!name) {
+                errors.push({ text: 'Please add a name' });
             }
-            */
-
-            let productLastIndex =  await this.getLastIndex();
-            /*
+            if(!categoryId) {
+                errors.push({ text: 'Please add some categoryId' });
+            }
+            if(!brandId) {
+                errors.push({ text: 'Please add a brandId' });
+            }
+            
             let myNewProduct = {
-                productId: productLastIndex + 1,
                 isActive: true,
                 isDeleted: false,
-                brandId:10,
-                categoryId:1,
-                code:12345678,
-                name:"Danone Test",
-                vatRate:8,
-                stockUnitId:2,
-                image:"http://service.rofoods.com/product/public/product-"+ this.productId +".png",
-                energyKj:50,
-                energyKcal:50
+                brandId: brandId,
+                categoryId: categoryId,
+                code: '123',
+                name: name,
+                vatRate: 8,
+                stockUnitId: 5,
+                image: "http://service.rofoods.com/product/public/product-" +`${productLastIndex+1}` + ".png",
+                energyKj: 50,
+                energyKcal: 50
             };
-            */
-
-            let myNewProduct = {
+            
+            let myNewProductBarcode = {
                 productId: productLastIndex + 1,
                 isActive: true,
-                isDeleted: false,
-                brandId:req.body.brandId,
-                categoryId:req.body.categoryId,
-                code:req.body.code,
-                name:req.body.name,
-                vatRate:8,
-                stockUnitId:req.body.stockUnitId,
-                image:"http://service.rofoods.com/product/public/product-"+ this.productId +".png",
-                energyKj:50,
-                energyKcal:50
+                barcode: barcode
             };
-            let newProduct = await Product.create(myNewProduct);
 
-            this.util.setSuccess(200,'addNewProduct',newProduct);
+            let myNewProductPrice = {
+                priceId: productLastIndex + 1,
+                isActive: true,
+                productId: productLastIndex + 1,
+                sellerId: sellerId,
+                unitPrice: unitPrice
+            };
+            console.log(myNewProductPrice);
+
+            let myProduct = await Product.create(myNewProduct);
+            let myBarcode = await ProductBarcode.create(myNewProductBarcode);
+            let myPrice = await ProductPrice.create(myNewProductPrice);
+
+            this.util.setSuccess(200,'addNewProduct',myProduct);
             return this.util.send(res);
         }
         catch(error) {
@@ -177,18 +201,20 @@ class AddProductController{
     
 
     routes() {
-        /* GET home page. */
-        this.router.get('/', function(req, res, next) {
-            res.render('addNewProduct', {
-                'title': 'Add New Product'
-            });
-        });
-        this.router.get('/getAllProducts', this.getAllProduct.bind(this));
-        this.router.get('/getProductById/:id',this.getProductById.bind(this));
-        this.router.get('/getProductBarcode',this.getProductBarcode.bind(this));
-        this.router.get('/getProductPrice',this.getProductPrice.bind(this));
-        this.router.get('/getProductPaymentMap',this.getProductPaymentMap.bind(this));
-        this.router.get('/addNewProduct',this.addNewProduct.bind(this));
+        /* GET add new product page. */
+        /*
+        this.router.get('/product/add', (req,res) => {
+            res.render('addNewProduct')});
+        */
+        /* Post data function */
+        this.router.post('/product/add', this.addNewProduct.bind(this));
+
+        this.router.get('/product/getAllProducts', this.getAllProduct.bind(this));
+        this.router.get('/product/getProductById/:id',this.getProductById.bind(this));
+        this.router.get('/product/getProductBarcode',this.getProductBarcode.bind(this));
+        this.router.get('/product/getProductPrice',this.getProductPrice.bind(this));
+        this.router.get('/product/getProductPaymentMap',this.getProductPaymentMap.bind(this));
+        //this.router.get('/product/add',this.addNewProduct.bind(this));
     }
 }
 

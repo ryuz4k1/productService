@@ -3,25 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <title>Add New Product</title>
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <!------ Include the above in your HEAD tag ---------->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <form action="/addNewProduct" class="form-horizontal" method="POST">
-      <fieldset>
+    <div id="legend">
+        <legend style="margin-left: 1%" >Add New Product</legend>
+    </div>
+    <form class="form-horizontal" action="/addNewProduct"  method="POST">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Product Name:</label>
+            <div class="col-sm-5">
+            <input type="text" class="form-control" id="name" placeholder="Enter product name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="categoryId">Category Id:</label>
+            <div class="col-sm-5"> 
+            <input type="number" class="form-control" id="categoryId" placeholder="Enter category id">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="brandId">Brand Id:</label>
+            <div class="col-sm-5"> 
+            <input type="number" class="form-control" id="brandId" placeholder="Enter brand id">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="barcode">Product Barcode:</label>
+            <div class="col-sm-5"> 
+            <input type="number" class="form-control" id="barcode" placeholder="Enter barcode">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="price">Product Price:</label>
+            <div class="col-sm-5"> 
+            <input type="text" class="form-control" id="price" placeholder="Enter price">
+            </div>
+        </div>
+    
+
+        <div class="form-group"> 
+            <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+                <label><input type="checkbox">Rocard</label>
+            </div>
+            </div>
+        </div>
+
+        <div class="form-group"> 
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label><input type="checkbox">Metropolcard</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group"> 
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="home"><a href="/product/add">Submit</a></button>
+            </div>
+        </div>
+    </form>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    <!--
+    <form action="/addNewProduct"  method="POST">
+      <fieldset class="form-group"> 
         <div id="legend">
             <legend style="margin-left: 1%" >Add New Product</legend>
         </div>
-        
-      <div class="control-group">
-          <label class="control-label" for="productId">Product Id</label>
-          <div class="controls">
-              <input type="text" id="productId" name="productId" class="input-xlarge"
-              maxlength="100">
-          </div>
-      </div>
 
       <div class="control-group">
         <label class="control-label"  for="brandId">Brand Id</label>
@@ -38,13 +106,6 @@
     </div>
 
       <div class="control-group">
-          <label class="control-label"  for="code">Code</label>
-          <div class="controls">
-              <input type="text" id="code" name="code" placeholder="" class="input-xlarge">
-          </div>
-      </div>
-
-      <div class="control-group">
           <label class="control-label"  for="name">Product Name</label>
           <div class="controls">
               <input type="text" id="name" name="name" placeholder="" class="input-xlarge">
@@ -52,52 +113,81 @@
       </div>
 
       <div class="control-group">
-          <label class="control-label"  for="vatRate">Vat Rate</label>
-          <div class="controls">
-              <input type="text" id="vatRate" name="vatRate" placeholder="" class="input-xlarge">
-          </div>
+            <label class="control-label"  for="barcode">Barcode</label>
+            <div class="controls">
+                <input type="text" id="barcode" name="barcode" placeholder="" class="input-xlarge">
+            </div>
       </div>
 
       <div class="control-group">
-          <label class="control-label"  for="stockUnitId">Stock Unit Id</label>
-          <div class="controls">
-              <input type="text" id="stockUnitId" name="stockUnitId" placeholder="" class="input-xlarge">
-          </div>
-      </div>
-
-      <div class="control-group">
-          <label class="control-label" for="image">Image Name</label>
-          <div class="controls">
-              <input type="text" id="image" name="image" placeholder="" class="input-xlarge">
-          </div>
+            <label class="control-label"  for="price">Price</label>
+            <div class="controls">
+                <input type="text" id="price" name="price" placeholder="" class="input-xlarge">
+            </div>
       </div>
 
 
-      <div class="control-group">
-          <label class="control-label" for="energyKj">energyKj</label>
-          <div class="controls">
-              <input type="text" id="energyKj" name="energyKj" placeholder="" class="input-xlarge">
-          </div>
-      </div>
+      
 
+        <div class="custom-control custom-checkbox" style="margin-left: 10%">
+            <input type="checkbox" class="custom-control-input" id="defaultChecked2">
+            <label class="custom-control-label" for="defaultChecked2">Rocard</label>
+        </div>
+        <div class="custom-control custom-checkbox" style="margin-left: 10%">
+            <input type="checkbox" class="custom-control-input" id="defaultChecked2">
+            <label class="custom-control-label" for="defaultChecked2">Metropolcard</label>
+        </div>
+        <div class="custom-control custom-checkbox" style="margin-left: 10%">
+            <input type="checkbox" class="custom-control-input" id="defaultChecked2">
+            <label class="custom-control-label" for="defaultChecked2">Bkm Ekspress Mobile</label>
+        </div>
 
-      <div class="control-group">
-          <label class="control-label" for="energyKcal">energyKcal</label>
-          <div class="controls">
-              <input type="text" id="energyKcal" name="energyKcal" placeholder="" class="input-xlarge">
-          </div>
-      </div>
+        <div class="custom-control custom-checkbox" style="margin-left: 10%">
+            <input type="checkbox" class="custom-control-input" id="defaultChecked2">
+            <label class="custom-control-label" for="defaultChecked2">Paycell</label>
+        </div>
 
+        <div class="custom-control custom-checkbox" style="margin-left: 10%">
+            <input type="checkbox" class="custom-control-input" id="defaultChecked2">
+            <label class="custom-control-label" for="defaultChecked2">Kredi Kartı (Kiosk)</label>
+        </div>
 
-      <div class="control-group">
-            <!-- Button -->
+        <div class="custom-control custom-checkbox" style="margin-left: 10%">
+            <input type="checkbox" class="custom-control-input" id="defaultChecked2">
+            <label class="custom-control-label" for="defaultChecked2">Bkm Ekspress (Kiosk)</label>
+        </div>
+
+        <div class="custom-control custom-checkbox" style="margin-left: 10%">
+            <input type="checkbox" class="custom-control-input" id="defaultChecked2">
+            <label class="custom-control-label" for="defaultChecked2">Multinet (Kiosk)</label>
+        </div>
+
+        <div class="custom-control custom-checkbox" style="margin-left: 10%">
+            <input type="checkbox" class="custom-control-input" id="defaultChecked2">
+            <label class="custom-control-label" for="defaultChecked2">Rogift Card</label>
+        </div>
+
+        <div class="custom-control custom-checkbox" style="margin-left: 10%">
+            <input type="checkbox" class="custom-control-input" id="defaultChecked2">
+            <label class="custom-control-label" for="defaultChecked2">Mobile pay (Kiosk)</label>
+        </div>
+
+        <div class="custom-control custom-checkbox" style="margin-left: 10%">
+            <input type="checkbox" class="custom-control-input" id="defaultChecked2">
+            <label class="custom-control-label" for="defaultChecked2">Set card</label>
+        </div>
+        
+
+        <div class="control-group">
             <div class="controls">
                 <button type="submit" class="btn btn-success input-xlarge">Add</button>
             </div>
         </div>
+
     </fieldset>
     </form>
 
+-->
 
 </body>
 </html>
