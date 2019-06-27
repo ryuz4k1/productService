@@ -138,7 +138,7 @@ class AddProductController{
 
     async addNewProduct(req,res) {
         try{
-            let { name, categoryId, brandId ,barcode, sellerId, unitPrice} = req.body;
+            let { name, categoryId, brandId ,barcode, unitPrice} = req.body;
             let errors = [];
             
             let productLastIndex =  await this.getLastIndex(1);
@@ -180,8 +180,9 @@ class AddProductController{
             let myNewProductPrice = {
                 priceId: productLastIndex + 1,
                 isActive: true,
+                isDeleted: false,
                 productId: productLastIndex + 1,
-                sellerId: sellerId,
+                sellerId: 1,
                 unitPrice: unitPrice
             };
             console.log(myNewProductPrice);
