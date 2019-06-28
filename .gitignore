@@ -1,1 +1,7 @@
 node_modules
+database.sql
+.env
+.gitignore
+k8s-deployment.yaml
+k8s-service.yaml
+dockerfile
