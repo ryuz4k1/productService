@@ -1,54 +1,24 @@
-class Util {
-    constructor() {
-      this.statusCode = null;
-      this.type = null;
-      this.data = null;
-      this.message = null;
-    }
-  
-    setSuccess(statusCode, message, data) {
-      this.statusCode = statusCode;
-      this.message = message;
-      this.data = data;
-      this.type = 'success';
-    }
-  
-    setError(statusCode, message) {
-      this.statusCode = statusCode;
-      this.message = message;
-      this.type = 'error';
-    }
+"use strict";
 
-    setResult(code, message, data) {
-      return result = {
-          code: code,
-          message: message,
-          data: data,
-          time: Date.now(),
-          api: {
-              author: "ryuz4k1",
-              name: "Murat",
-              description: "Product Service",
-              version: "0.1"
-          }
-      }
-  }
-  
-    send(res) {
-      const result = {
-        status: this.type,
-        message: this.message,
-        data: this.data,
-      };
-  
-      if (this.type === 'success') {
-        return res.status(this.statusCode).json(result);
-      }
-      return res.status(this.statusCode).json({
-        status: this.type,
-        message: this.message,
-      });
+const packageJson = require("../../package.json");
+
+class Utils {
+  setResult(code, message, data) {
+    const result = {
+        code: code,
+        message: message,
+        data: data,
+        time: Date.now(),
+        api: {
+            author: packageJson.author,
+            name: packageJson.name,
+            description: packageJson.description,
+            version: packageJson.version
+        }
     }
+    return result;
   }
 
-  module.exports = Util;
+}
+
+  module.exports = Utils;

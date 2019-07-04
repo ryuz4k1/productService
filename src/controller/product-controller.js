@@ -1,10 +1,11 @@
-const Util                  =   require('../helper/utils');
+const Utils                 =  require('../helper/utils');
 const Product               =   require("../models/product-model");
 const ProductBarcode        =   require("../models/product-barcode-model");
 const ProductPrice          =   require("../models/product-price-model");
 const ProductPaymentMap     =   require("../models/product-payment-map-model");
 const Sequelize             =   require('sequelize');
 const Connection            =   require("../helper/connection");
+const Types                 =   require("../helper/types");
 
 const connection = new Connection();
 const sequelize  = connection.postgres();
@@ -12,17 +13,14 @@ const sequelize  = connection.postgres();
 
 class AddProductController{
 
-    
 
     constructor(router) {
         this.router = router;
         this.routes();
-        this.util = new Util();
-
-        
+        this.utils = new Utils();
     }
 
-    async getAllProduct(req,res) {
+    async getAllProduct(req, res) {
         try{
             const allProducts = await Product.findAll();
             console.log(allProducts['productId']);
@@ -39,7 +37,7 @@ class AddProductController{
         }
     }
 
-    async getProductById(req,res){
+    async getProductById(req, res){
         try{
             const product = await Product.findOne({where : {productId : req.params.id}});
             console.log(product.dataValues);
@@ -58,7 +56,7 @@ class AddProductController{
     }
 
 
-    async getProductBarcode(req,res){
+    async getProductBarcode(req, res){
         try{
             const product = await ProductBarcode.findAll();
             console.log(product.dataValues);
@@ -76,7 +74,7 @@ class AddProductController{
         }
     }
 
-    async getProductPrice(req,res){
+    async getProductPrice(req, res){
         try{
             const product = await ProductPrice.findAll();
             console.log(product.dataValues);
@@ -94,7 +92,7 @@ class AddProductController{
         }
     }
 
-    async getProductPaymentMap(req,res){
+    async getProductPaymentMap(req, res){
         try{
             const product = await ProductPaymentMap.findAll();
             console.log(product.dataValues);
@@ -136,9 +134,10 @@ class AddProductController{
         }
     }
 
-    async addNewProduct(req,res) {
+    async addNewProduct(req, res) {
         try{
-            let { name, categoryId, brandId ,barcode, unitPrice} = req.body;
+            console.log(req.body);
+            let { name, categoryId, brandId ,barcode, unitPrice } = req.body;
             let errors = [];
             
             let productLastIndex =  await this.getLastIndex(1);
@@ -155,6 +154,10 @@ class AddProductController{
             }
             if(!brandId) {
                 errors.push({ text: 'Please add a brandId' });
+            }
+
+            if (errors.length > 0) {
+                return res.send(errors);
             }
             
             let myNewProduct = {
@@ -191,11 +194,10 @@ class AddProductController{
             let myBarcode = await ProductBarcode.create(myNewProductBarcode);
             let myPrice = await ProductPrice.create(myNewProductPrice);
 
-            this.util.setSuccess(200,'addNewProduct',myProduct);
-            return this.util.send(res);
+            return res.send(this.utils.setResult(Types.Code.SUCCESS, "add-product", myProduct));
         }
         catch(error) {
-            return res.send(error);
+            return res.send(this.utils.setResult(Types.Code.ERROR, "Error", null));
         }
     }
 
@@ -203,10 +205,10 @@ class AddProductController{
 
     routes() {
         /* GET add new product page. */
-        /*
+        
         this.router.get('/product/add', (req,res) => {
-            res.render('addNewProduct')});
-        */
+            res.render('add-product')});
+        
         /* Post data function */
         this.router.post('/product/add', this.addNewProduct.bind(this));
 

@@ -3,7 +3,6 @@ const express                = require("express");
 const bodyParser             = require("body-parser");
 const ExceptionMiddleware    = require("./middleware/exception-middleware");
 const ProductController      = require("./controller/product-controller");
-const path                   = require('path');
 var engines = require('consolidate');
 
 
@@ -18,6 +17,7 @@ class App {
     config() {
         // ... Body parser
         this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({ extended: false }));
 
         // view engine setup
         console.log(__dirname+'/views')
@@ -36,8 +36,8 @@ class App {
         
         
         // ... Exception middleware
-        //const exceptionMiddleware = new ExceptionMiddleware();
-        //this.app.use(exceptionMiddleware.errorHandler);
+        const exceptionMiddleware = new ExceptionMiddleware();
+        this.app.use(exceptionMiddleware.errorHandler);
     }
     getApp() {
         return this.app;
