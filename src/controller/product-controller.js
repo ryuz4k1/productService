@@ -135,31 +135,44 @@ class AddProductController{
     }
 
     async addNewProduct(req, res) {
+        console.log(req.body);
         try{
-            console.log(req.body);
             let { name, categoryId, brandId ,barcode, unitPrice } = req.body;
             let errors = [];
+            //barcode = barcode.split(",");
             
             let productLastIndex =  await this.getLastIndex(1);
-            let barcodeLastIndex =  await this.getLastIndex(2);
-            console.log(productLastIndex)
-            console.log(barcodeLastIndex)
+            //let barcodeLastIndex =  await this.getLastIndex(2);
 
             // Validate Fields
             if(!name) {
                 errors.push({ text: 'Please add a name' });
+                alert('Please add a name');
             }
             if(!categoryId) {
                 errors.push({ text: 'Please add some categoryId' });
+                alert('Please add a categoryId');
             }
             if(!brandId) {
                 errors.push({ text: 'Please add a brandId' });
+                alert('Please add a brandId');
+            }
+            if(!barcode) {
+                errors.push({ text: 'Please add a barcode' });
+                alert('Please add a barcode');
+            }
+            if(!unitPrice) {
+                errors.push({ text: 'Please add a unitPrice' });
+                alert('Please add a unitPrice');
             }
 
             if (errors.length > 0) {
-                return res.send(errors);
+                return res.render('add-product', {
+                    name, categoryId, brandId ,barcode, unitPrice 
+                });
+                //return res.send(errors);
             }
-            
+
             let myNewProduct = {
                 isActive: true,
                 isDeleted: false,
@@ -174,11 +187,26 @@ class AddProductController{
                 energyKcal: 50
             };
             
+            /*
+            if (barcode >= 1) {
+                for (let i = 0; i < barcode.length; i++) {
+                    let myNewProductBarcode = {
+                        productId: productLastIndex + 1,
+                        isActive: true,
+                        barcode: barcode
+                    };
+                    await ProductBarcode.create(myNewProductBarcode);
+                }
+            }
+            */
+
             let myNewProductBarcode = {
                 productId: productLastIndex + 1,
                 isActive: true,
                 barcode: barcode
             };
+            await ProductBarcode.create(myNewProductBarcode);
+            
 
             let myNewProductPrice = {
                 priceId: productLastIndex + 1,
@@ -188,16 +216,16 @@ class AddProductController{
                 sellerId: 1,
                 unitPrice: unitPrice
             };
-            console.log(myNewProductPrice);
 
             let myProduct = await Product.create(myNewProduct);
-            let myBarcode = await ProductBarcode.create(myNewProductBarcode);
-            let myPrice = await ProductPrice.create(myNewProductPrice);
+            await ProductPrice.create(myNewProductPrice);
 
             return res.send(this.utils.setResult(Types.Code.SUCCESS, "add-product", myProduct));
+            
+            
         }
         catch(error) {
-            return res.send(this.utils.setResult(Types.Code.ERROR, "Error", null));
+            return res.send(this.utils.setResult(Types.Code.ERROR, "Error", error));
         }
     }
 
@@ -205,9 +233,7 @@ class AddProductController{
 
     routes() {
         /* GET add new product page. */
-        
-        this.router.get('/product/add', (req,res) => {
-            res.render('add-product')});
+        this.router.get('/product/add', (req,res) => {res.render('add-product')});
         
         /* Post data function */
         this.router.post('/product/add', this.addNewProduct.bind(this));

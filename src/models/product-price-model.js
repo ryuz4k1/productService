@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const Connection = require('../helper/connection');
+const Sequelize     = require('sequelize');
+const Connection    = require('../helper/connection');
 
 const conn = new Connection();
 const seq = conn.postgres();
@@ -33,7 +33,7 @@ const product_price = seq.define('productPrice',{
     },
     unitPrice : {
         field: "unitPrice",
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
         allowNull: true
     },
     createOn : {

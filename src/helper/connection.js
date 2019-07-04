@@ -20,6 +20,7 @@ class Connection {
                 },
                 define: {
                     freezeTableName: true,
+                    timestamps: false,
                     defaultScope: {
                         attributes: {
                             exclude: ["createdAt", "updatedAt"]
